@@ -134,6 +134,7 @@ UIScrollViewDelegate>
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.pagingEnabled = YES;
+    self.collectionView.hidden = YES;
     [self addSubview:self.collectionView];
     [self.collectionView registerClass:[CarouseFigureViewCell class]
             forCellWithReuseIdentifier:kResueIdentifierCarouseFigureViewCell];
@@ -151,6 +152,7 @@ UIScrollViewDelegate>
     self.pageControl.currentPageIndicatorTintColor = [UIColor redColor];
     self.pageControl.numberOfPages = [self.images count];
     self.pageControl.enabled = NO;
+    self.pageControl.hidden = YES;
     [self addSubview:self.pageControl];
 }
 
@@ -174,6 +176,8 @@ UIScrollViewDelegate>
 - (void)show {
     self.pageControl.numberOfPages = [self.images count];
     [self.collectionView reloadData];
+    self.pageControl.hidden = NO;
+    self.collectionView.hidden = NO;
 }
 
 #pragma mark - Handlers 

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "FXCarouselFigureView"
-  s.version      = "1.0.5"
+  s.version      = "1.0.6"
   s.summary      = "this is carouseFigureView."
   s.homepage     = "https://github.com/zfx5130/FXCarouselFigureView"
   s.license      = "MIT"
