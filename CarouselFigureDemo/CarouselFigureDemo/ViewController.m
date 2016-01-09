@@ -42,13 +42,15 @@ FXCarouselFigureViewDelegate>
 - (void)setupViews {
     
     FXCarouselFigureView *figureView =
-    [[FXCarouselFigureView alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.view.frame) - 280.0f) * 0.5f, 40.0f, 280.0f, 200.0f)];
+    [[FXCarouselFigureView alloc] initWithFrame:CGRectMake(20.0f, 40.0f, CGRectGetWidth(self.view.frame) - 20.0f * 2, 200.0f)];
     [self.view addSubview:figureView];
     figureView.currentPageIndicatorTintColor = [UIColor grayColor];
     figureView.pageIndicatorTintColor = [UIColor blackColor];
     figureView.contentMode = UIViewContentModeScaleToFill;
+    figureView.hiddenPageControl = YES;
     [self setupCarouselFigureDataSourceWithFigureView:figureView];
     [figureView show];
+    
     UILabel *label = [[UILabel alloc] init];
     label.frame = CGRectMake(CGRectGetMinX(figureView.frame), CGRectGetMaxY(figureView.frame) + 5.0f, 280.0f, 20.0f);
     label.textAlignment = NSTextAlignmentCenter;

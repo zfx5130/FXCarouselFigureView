@@ -18,15 +18,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XSz-T0-xas" customClass="FXCarouselFigureView">
-                                <rect key="frame" x="47.5" y="300" width="280" height="200"/>
+                                <rect key="frame" x="20" y="300" width="335" height="200"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="280" id="2PE-0y-YCG"/>
                                     <constraint firstAttribute="height" constant="200" id="Qlf-lh-Q44"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="storyboard创建" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b50-Ux-mUq">
-                                <rect key="frame" x="47.5" y="510" width="280" height="21"/>
+                                <rect key="frame" x="20" y="510" width="335" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="Sec-SY-T8H"/>
                                 </constraints>
@@ -39,8 +38,10 @@
                         <constraints>
                             <constraint firstItem="b50-Ux-mUq" firstAttribute="centerX" secondItem="XSz-T0-xas" secondAttribute="centerX" id="23c-Dz-tED"/>
                             <constraint firstItem="b50-Ux-mUq" firstAttribute="top" secondItem="XSz-T0-xas" secondAttribute="bottom" constant="10" id="Gz4-qh-ssF"/>
+                            <constraint firstAttribute="trailing" secondItem="XSz-T0-xas" secondAttribute="trailing" constant="20" id="KgM-d5-MVw"/>
                             <constraint firstItem="b50-Ux-mUq" firstAttribute="width" secondItem="XSz-T0-xas" secondAttribute="width" id="NSC-Aq-xO6"/>
                             <constraint firstItem="XSz-T0-xas" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="49" id="OOZ-nP-GfT"/>
+                            <constraint firstItem="XSz-T0-xas" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="oOG-Hs-TGp"/>
                             <constraint firstItem="XSz-T0-xas" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qPf-qX-1Ro"/>
                             <constraint firstItem="XSz-T0-xas" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="280" id="seT-Wj-kpg"/>
                             <constraint firstAttribute="trailing" secondItem="XSz-T0-xas" secondAttribute="trailing" constant="49" id="zLS-q2-30m"/>

@@ -33,6 +33,43 @@ static const CGFloat kDefaultPageControlHeight = 40.0f;
 - (void)setupImageView {
     self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
     [self.contentView addSubview:self.imageView];
+    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *leftConstraint =
+    [NSLayoutConstraint constraintWithItem:self.imageView
+                                 attribute:NSLayoutAttributeLeading
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.contentView
+                                 attribute:NSLayoutAttributeLeading
+                                multiplier:1.0f
+                                  constant:0.0f];
+    NSLayoutConstraint *rightConstraint =
+    [NSLayoutConstraint constraintWithItem:self.imageView
+                                 attribute:NSLayoutAttributeTrailing
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.contentView
+                                 attribute:NSLayoutAttributeTrailing
+                                multiplier:1.0f
+                                  constant:0.0f];
+    NSLayoutConstraint *topConstraint =
+    [NSLayoutConstraint constraintWithItem:self.imageView
+                                 attribute:NSLayoutAttributeTop
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.contentView
+                                 attribute:NSLayoutAttributeTop
+                                multiplier:1.0f
+                                  constant:0.0f];
+    NSLayoutConstraint *heightConstraint =
+    [NSLayoutConstraint constraintWithItem:self.imageView
+                                 attribute:NSLayoutAttributeHeight
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.contentView
+                                 attribute:NSLayoutAttributeHeight
+                                multiplier:1.0f
+                                  constant:0.0f];
+    leftConstraint.active = YES;
+    rightConstraint.active = YES;
+    topConstraint.active = YES;
+    heightConstraint.active = YES;
 }
 
 - (void)prepareForReuse {
@@ -62,7 +99,7 @@ UIScrollViewDelegate>
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setupViews];
+       [self setupViews];
     }
     return self;
 }
@@ -91,7 +128,7 @@ UIScrollViewDelegate>
     _pageControlFrame = pageControlFrame;
     self.pageControl.frame = pageControlFrame;
     [self.pageControl layoutIfNeeded];
-    [self.pageControl layoutSubviews];
+    [self.pageControl setNeedsLayout];
 }
 
 - (void)setPageIndicatorTintColor:(UIColor *)pageIndicatorTintColor {
@@ -107,6 +144,7 @@ UIScrollViewDelegate>
 #pragma mark - Private
 
 - (void)setupViews {
+    
     [self setupCollectionView];
     [self setupPageControl];
     [self addTimer];
@@ -129,6 +167,7 @@ UIScrollViewDelegate>
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     self.collectionView = [[UICollectionView alloc] initWithFrame:frame
                                              collectionViewLayout:flowLayout];
+    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     self.collectionView.backgroundColor = [UIColor clearColor];
@@ -136,6 +175,42 @@ UIScrollViewDelegate>
     self.collectionView.pagingEnabled = YES;
     self.collectionView.hidden = YES;
     [self addSubview:self.collectionView];
+    NSLayoutConstraint *leftConstraint =
+    [NSLayoutConstraint constraintWithItem:self.collectionView
+                                 attribute:NSLayoutAttributeLeading
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self
+                                 attribute:NSLayoutAttributeLeading
+                                multiplier:1.0f
+                                  constant:0.0f];
+    NSLayoutConstraint *rightConstraint =
+    [NSLayoutConstraint constraintWithItem:self.collectionView
+                                 attribute:NSLayoutAttributeTrailing
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self
+                                 attribute:NSLayoutAttributeTrailing
+                                multiplier:1.0f
+                                  constant:0.0f];
+    NSLayoutConstraint *topConstraint =
+    [NSLayoutConstraint constraintWithItem:self.collectionView
+                                 attribute:NSLayoutAttributeTop
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self
+                                 attribute:NSLayoutAttributeTop
+                                multiplier:1.0f
+                                  constant:0.0f];
+    NSLayoutConstraint *heightConstraint =
+    [NSLayoutConstraint constraintWithItem:self.collectionView
+                                 attribute:NSLayoutAttributeHeight
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self
+                                 attribute:NSLayoutAttributeHeight
+                                multiplier:1.0f
+                                  constant:0.0f];
+    leftConstraint.active = YES;
+    rightConstraint.active = YES;
+    topConstraint.active = YES;
+    heightConstraint.active = YES;
     [self.collectionView registerClass:[CarouseFigureViewCell class]
             forCellWithReuseIdentifier:kResueIdentifierCarouseFigureViewCell];
 }
@@ -154,6 +229,7 @@ UIScrollViewDelegate>
     self.pageControl.enabled = NO;
     self.pageControl.hidden = YES;
     [self addSubview:self.pageControl];
+    
 }
 
 - (void)addTimer {
