@@ -176,8 +176,8 @@ UIScrollViewDelegate>
 - (void)show {
     self.pageControl.numberOfPages = [self.images count];
     [self.collectionView reloadData];
-    self.pageControl.hidden = NO;
     self.collectionView.hidden = NO;
+    self.pageControl.hidden = self.hiddenPageControl;
 }
 
 #pragma mark - Handlers 
