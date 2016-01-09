@@ -11,7 +11,27 @@
 @class FXCarouselFigureView;
 @protocol FXCarouselFigureViewDataSource <NSObject>
 
+/**
+ *  rolling images
+ *
+ *  @param view self
+ *
+ *  @return images
+ */
 - (NSArray<UIImage *> *)carouseFigureImageForFXCarouseFigureView:(FXCarouselFigureView *)view;
+
+@end
+
+@protocol FXCarouselFigureViewDelegate <NSObject>
+
+/**
+ *  select the image will be execute this way,.
+ *
+ *  @param view  self
+ *  @param index image index
+ */
+- (void)imageWasSelectForFXCarouseFigureView:(FXCarouselFigureView *)view
+                                       index:(NSInteger)index;
 
 @end
 
@@ -47,6 +67,11 @@
  *  if you use this. you must be set the dataSource.
  */
 @property (weak, nonatomic) id <FXCarouselFigureViewDataSource> dataSource;
+
+/**
+ *  the carouselFigureViewDelegate
+ */
+@property (weak, nonatomic) id <FXCarouselFigureViewDelegate> delegate;
 
 /**
  *  the view show.

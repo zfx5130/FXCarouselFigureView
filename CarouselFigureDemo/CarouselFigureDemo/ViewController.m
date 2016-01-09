@@ -11,7 +11,8 @@
 #import "FXCarouselFigureView.h"
 
 @interface ViewController ()
-<FXCarouselFigureViewDataSource>
+<FXCarouselFigureViewDataSource,
+FXCarouselFigureViewDelegate>
 
 @property (weak, nonatomic) IBOutlet FXCarouselFigureView *carouseFigureView;
 
@@ -51,16 +52,17 @@
     UILabel *label = [[UILabel alloc] init];
     label.frame = CGRectMake(CGRectGetMinX(figureView.frame), CGRectGetMaxY(figureView.frame) + 5.0f, 280.0f, 20.0f);
     label.textAlignment = NSTextAlignmentCenter;
-    label.text = @"手动视图创建";
+    label.text = NSLocalizedString(@"手动视图创建", @"手动创建视图");
     [self.view addSubview:label];
     
 }
 
 - (void)setupCarouselFigureDataSourceWithFigureView:(FXCarouselFigureView *)figure {
     figure.dataSource = self;
+    figure.delegate = self;
 }
 
-#pragma mark - InfiniteCarouselFigureViewDataSource
+#pragma mark - FXCarouselFigureViewdataSource
 
 - (NSArray<UIImage *> *)carouseFigureImageForFXCarouseFigureView:(FXCarouselFigureView *)view {
     NSArray *images = @[
@@ -71,6 +73,13 @@
                         [UIImage imageNamed:@"topic_schedule_level_5"],
                         ];
     return images;
+}
+
+#pragma mark - FXCarouselFigureViewDelegage
+
+- (void)imageWasSelectForFXCarouseFigureView:(FXCarouselFigureView *)view
+                                       index:(NSInteger)index {
+    NSLog(@"select image index ::%@", @(index));
 }
 
 

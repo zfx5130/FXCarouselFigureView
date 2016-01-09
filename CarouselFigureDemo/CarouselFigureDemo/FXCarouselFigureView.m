@@ -228,6 +228,16 @@ UIScrollViewDelegate>
     return cell;
 }
 
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView
+    didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(imageWasSelectForFXCarouseFigureView:index:)]) {
+        [self.delegate imageWasSelectForFXCarouseFigureView:self index:(indexPath.item + 1)];
+    }
+}
+
+
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView
