@@ -55,6 +55,21 @@
 
 ```
 
+####Delegate
+
+```
+/**
+ *  select the image will be execute this way,.
+ *
+ *  @param view  self
+ *  @param index image index
+ */
+- (void)imageWasSelectForFXCarouseFigureView:(FXCarouselFigureView *)view
+                                       index:(NSInteger)index;
+
+
+```
+
 ####Property
 
 ```
