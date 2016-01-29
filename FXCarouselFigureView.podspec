@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "FXCarouselFigureView"
-  s.version      = "1.1.0"
+  s.version      = "1.1.1"
   s.summary      = "collectionView 完成的无限轮播图功能,支持传入images,或者imagesUrl,使用方便"
   s.homepage     = "https://github.com/zfx5130/FXCarouselFigureView"
   s.license      = "MIT"
