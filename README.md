@@ -10,19 +10,10 @@
 
 ```
   1.在 Podfile 中添加 pod "FXCarouselFigureView"。
-  2.执行 pod install 或 pod update。
+  2.执行 pod install
   3.导入 <FXCarouselFigureView.h>。
 
 ```
-###2.手动安装
-
-```
-  1.下载FXCarouselFigureView文件夹内的所有内容。
-  2.将FXCarouselFigureView内的源文件添加(拖放)到你的工程。
-  3.导入FXCarouselFigureView.h。
-
-```
-
 
 ## 使用方式
 
