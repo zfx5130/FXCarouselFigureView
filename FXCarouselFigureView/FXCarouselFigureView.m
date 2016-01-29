@@ -8,6 +8,7 @@
 
 
 #import "FXCarouselFigureView.h"
+#import <SDWebImage/SDWebImageManager.h>
 
 static NSString *const kResueIdentifierCarouseFigureViewCell =
 @"kResueIdentifierCarouseFigureViewCell";
@@ -33,6 +34,43 @@ static const CGFloat kDefaultPageControlHeight = 40.0f;
 - (void)setupImageView {
     self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
     [self.contentView addSubview:self.imageView];
+    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSLayoutConstraint *leftConstraint =
+    [NSLayoutConstraint constraintWithItem:self.imageView
+                                 attribute:NSLayoutAttributeLeading
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.contentView
+                                 attribute:NSLayoutAttributeLeading
+                                multiplier:1.0f
+                                  constant:0.0f];
+    NSLayoutConstraint *rightConstraint =
+    [NSLayoutConstraint constraintWithItem:self.imageView
+                                 attribute:NSLayoutAttributeTrailing
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.contentView
+                                 attribute:NSLayoutAttributeTrailing
+                                multiplier:1.0f
+                                  constant:0.0f];
+    NSLayoutConstraint *topConstraint =
+    [NSLayoutConstraint constraintWithItem:self.imageView
+                                 attribute:NSLayoutAttributeTop
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.contentView
+                                 attribute:NSLayoutAttributeTop
+                                multiplier:1.0f
+                                  constant:0.0f];
+    NSLayoutConstraint *heightConstraint =
+    [NSLayoutConstraint constraintWithItem:self.imageView
+                                 attribute:NSLayoutAttributeHeight
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:self.contentView
+                                 attribute:NSLayoutAttributeHeight
+                                multiplier:1.0f
+                                  constant:0.0f];
+    leftConstraint.active = YES;
+    rightConstraint.active = YES;
+    topConstraint.active = YES;
+    heightConstraint.active = YES;
 }
 
 - (void)prepareForReuse {
@@ -40,7 +78,6 @@ static const CGFloat kDefaultPageControlHeight = 40.0f;
 }
 
 @end
-
 
 @interface FXCarouselFigureView ()
 <UICollectionViewDataSource,
@@ -52,6 +89,8 @@ UIScrollViewDelegate>
 @property (strong, nonatomic) UIPageControl *pageControl;
 @property (strong, nonatomic) NSTimer *timer;
 @property (copy, nonatomic) NSArray *images;
+@property (copy, nonatomic) NSArray *imageUrls;
+@property (strong, nonatomic) UIImage *defaultImage;
 
 @end
 
@@ -62,7 +101,7 @@ UIScrollViewDelegate>
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setupViews];
+       [self setupViews];
     }
     return self;
 }
@@ -114,11 +153,48 @@ UIScrollViewDelegate>
 
 - (NSArray *)images {
     if (!_images) {
-        if ([self.dataSource respondsToSelector:@selector(carouseFigureImageForFXCarouseFigureView:)]) {
-            _images =  [self.dataSource carouseFigureImageForFXCarouseFigureView:self];
+        if ([self.imageUrls count]) {
+            NSMutableArray *imagesTemp = [[NSMutableArray alloc] init];
+            for (NSInteger i = 0; i < [self.imageUrls count]; i++) {
+                [[SDWebImageManager sharedManager] downloadImageWithURL:self.imageUrls[i] options:SDWebImageRetryFailed progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                    if (image) {
+                        imagesTemp[i] = image;
+                    } else if (!image && error) {
+                        image = self.defaultImage;
+                    }
+                    imagesTemp[i] = image;
+                    self.images = [imagesTemp copy];
+                }];
+            }
+        } else {
+            if ([self.dataSource respondsToSelector:@selector(carouseFigureImageForFXCarouseFigureView:)]) {
+                _images =  [self.dataSource carouseFigureImageForFXCarouseFigureView:self];
+            }
         }
     }
     return _images;
+}
+
+
+- (NSArray *)imageUrls {
+    if (!_imageUrls) {
+        if ([self.dataSource respondsToSelector:@selector(carouseFigureImageUrlsForFXCarouseFigureView:)]) {
+            _imageUrls = [self.dataSource carouseFigureImageUrlsForFXCarouseFigureView:self];
+        }
+    }
+    return _imageUrls;
+}
+
+- (UIImage *)defaultImage {
+    if (!_defaultImage) {
+        if ([self.dataSource respondsToSelector:@selector(carouseFigureDefaultImageForFXCarouseFigureView:)]) {
+            _defaultImage = [self.dataSource carouseFigureDefaultImageForFXCarouseFigureView:self];
+        } else {
+            _defaultImage = [self imageWithColor:[UIColor greenColor]
+                                            size:CGSizeMake(1.0f, 1.0f)];
+        }
+    }
+    return _defaultImage;
 }
 
 - (void)setupCollectionView {
@@ -137,7 +213,6 @@ UIScrollViewDelegate>
     self.collectionView.pagingEnabled = YES;
     self.collectionView.hidden = YES;
     [self addSubview:self.collectionView];
-    
     NSLayoutConstraint *leftConstraint =
     [NSLayoutConstraint constraintWithItem:self.collectionView
                                  attribute:NSLayoutAttributeLeading
@@ -208,6 +283,22 @@ UIScrollViewDelegate>
 - (void)removeTimer {
     [self.timer invalidate];
     self.timer = nil;
+}
+
+#pragma mark - default image
+
+- (UIImage *)imageWithColor:(UIColor *)color
+                       size:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    CGContextFillRect(context, (CGRect){.size = size});
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 
 #pragma mark - Public

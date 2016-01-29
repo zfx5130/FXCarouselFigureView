@@ -8,6 +8,7 @@
 
 
 #import "FXCarouselFigureView.h"
+#import <SDWebImage/SDWebImageManager.h>
 
 static NSString *const kResueIdentifierCarouseFigureViewCell =
 @"kResueIdentifierCarouseFigureViewCell";
@@ -78,7 +79,6 @@ static const CGFloat kDefaultPageControlHeight = 40.0f;
 
 @end
 
-
 @interface FXCarouselFigureView ()
 <UICollectionViewDataSource,
 UICollectionViewDelegate,
@@ -89,6 +89,8 @@ UIScrollViewDelegate>
 @property (strong, nonatomic) UIPageControl *pageControl;
 @property (strong, nonatomic) NSTimer *timer;
 @property (copy, nonatomic) NSArray *images;
+@property (copy, nonatomic) NSArray *imageUrls;
+@property (strong, nonatomic) UIImage *defaultImage;
 
 @end
 
@@ -144,7 +146,6 @@ UIScrollViewDelegate>
 #pragma mark - Private
 
 - (void)setupViews {
-    
     [self setupCollectionView];
     [self setupPageControl];
     [self addTimer];
@@ -152,11 +153,48 @@ UIScrollViewDelegate>
 
 - (NSArray *)images {
     if (!_images) {
-        if ([self.dataSource respondsToSelector:@selector(carouseFigureImageForFXCarouseFigureView:)]) {
-            _images =  [self.dataSource carouseFigureImageForFXCarouseFigureView:self];
+        if ([self.imageUrls count]) {
+            NSMutableArray *imagesTemp = [[NSMutableArray alloc] init];
+            for (NSInteger i = 0; i < [self.imageUrls count]; i++) {
+                [[SDWebImageManager sharedManager] downloadImageWithURL:self.imageUrls[i] options:SDWebImageRetryFailed progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                    if (image) {
+                        imagesTemp[i] = image;
+                    } else if (!image && error) {
+                        image = self.defaultImage;
+                    }
+                    imagesTemp[i] = image;
+                    self.images = [imagesTemp copy];
+                }];
+            }
+        } else {
+            if ([self.dataSource respondsToSelector:@selector(carouseFigureImageForFXCarouseFigureView:)]) {
+                _images =  [self.dataSource carouseFigureImageForFXCarouseFigureView:self];
+            }
         }
     }
     return _images;
+}
+
+
+- (NSArray *)imageUrls {
+    if (!_imageUrls) {
+        if ([self.dataSource respondsToSelector:@selector(carouseFigureImageUrlsForFXCarouseFigureView:)]) {
+            _imageUrls = [self.dataSource carouseFigureImageUrlsForFXCarouseFigureView:self];
+        }
+    }
+    return _imageUrls;
+}
+
+- (UIImage *)defaultImage {
+    if (!_defaultImage) {
+        if ([self.dataSource respondsToSelector:@selector(carouseFigureDefaultImageForFXCarouseFigureView:)]) {
+            _defaultImage = [self.dataSource carouseFigureDefaultImageForFXCarouseFigureView:self];
+        } else {
+            _defaultImage = [self imageWithColor:[UIColor greenColor]
+                                            size:CGSizeMake(1.0f, 1.0f)];
+        }
+    }
+    return _defaultImage;
 }
 
 - (void)setupCollectionView {
@@ -245,6 +283,22 @@ UIScrollViewDelegate>
 - (void)removeTimer {
     [self.timer invalidate];
     self.timer = nil;
+}
+
+#pragma mark - default image
+
+- (UIImage *)imageWithColor:(UIColor *)color
+                       size:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    CGContextFillRect(context, (CGRect){.size = size});
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 
 #pragma mark - Public

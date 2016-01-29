@@ -20,6 +20,24 @@
  */
 - (NSArray<UIImage *> *)carouseFigureImageForFXCarouseFigureView:(FXCarouselFigureView *)view;
 
+/**
+ *  rolling image urls
+ *
+ *  @param view self
+ *
+ *  @return imageurls
+ */
+- (NSArray<NSString *> *)carouseFigureImageUrlsForFXCarouseFigureView:(FXCarouselFigureView *)view;
+
+/**
+ *  default rolling image, if you not set image, or you set the imageurl is not load image , the default image can replace it.,if you not set image , the default image is green color image.
+ *
+ *  @param view self
+ *
+ *  @return default image
+ */
+- (UIImage *)carouseFigureDefaultImageForFXCarouseFigureView:(FXCarouselFigureView *)view;
+
 @end
 
 @protocol FXCarouselFigureViewDelegate <NSObject>
