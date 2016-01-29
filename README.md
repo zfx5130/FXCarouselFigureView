@@ -1,5 +1,5 @@
 # FXCarouselFigureView
-无限轮播图.使用方法简单,创建视图,设置images数组,调用show方法即可使用,有对应的参数,根据自己需求自己设置即可.可参考Demo.
+无限轮播图.使用方法简单,创建视图,设置images数组,或者imageUrls, 调用show方法即可使用,有对应的参数,根据自己需求自己设置即可.可下载参考Demo.
 
 ###效果如下
 
@@ -52,6 +52,23 @@
  */
 - (NSArray<UIImage *> *)carouseFigureImageForFXCarouseFigureView:(FXCarouselFigureView *)view;
 
+/**
+ *  rolling image urls
+ *
+ *  @param view self
+ *
+ *  @return imageurls
+ */
+- (NSArray<NSString *> *)carouseFigureImageUrlsForFXCarouseFigureView:(FXCarouselFigureView *)view;
+
+/**
+ *  default rolling image, if you not set image, or you set the imageurl is not load image , the default image can replace it.,if you not set image , the default image is green color image.
+ *
+ *  @param view self
+ *
+ *  @return default image
+ */
+- (UIImage *)carouseFigureDefaultImageForFXCarouseFigureView:(FXCarouselFigureView *)view;
 
 ```
 
