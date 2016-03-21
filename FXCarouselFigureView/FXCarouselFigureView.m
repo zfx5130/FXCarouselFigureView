@@ -143,12 +143,22 @@ UIScrollViewDelegate>
     self.pageControl.currentPageIndicatorTintColor = currentPageIndicatorTintColor;
 }
 
+- (void)setCanAutoCarousel:(BOOL)canAutoCarousel {
+    _canAutoCarousel = canAutoCarousel;
+    if (!_canAutoCarousel) {
+        [self removeTimer];
+    }
+}
+
 #pragma mark - Private
 
 - (void)setupViews {
+    self.canAutoCarousel = YES;
     [self setupCollectionView];
     [self setupPageControl];
-    [self addTimer];
+    if (self.canAutoCarousel) {
+        [self addTimer];
+    }
 }
 
 - (NSArray *)images {
@@ -386,11 +396,15 @@ UIScrollViewDelegate>
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    [self removeTimer];
+    if (self.canAutoCarousel) {
+        [self removeTimer];
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    [self addTimer];
+    if (self.canAutoCarousel) {
+        [self addTimer];
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

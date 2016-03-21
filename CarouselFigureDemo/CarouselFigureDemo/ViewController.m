@@ -26,6 +26,7 @@ FXCarouselFigureViewDelegate>
     [super viewDidLoad];
     [self setupViews];
     [self setupCarouselFigureDataSourceWithFigureView:self.carouseFigureView];
+//    self.carouseFigureView.canAutoCarousel = NO;
     [self.carouseFigureView show];
 }
 
@@ -48,6 +49,7 @@ FXCarouselFigureViewDelegate>
     figureView.pageIndicatorTintColor = [UIColor blackColor];
     figureView.contentMode = UIViewContentModeScaleToFill;
     figureView.hiddenPageControl = YES;
+//    figureView.canAutoCarousel = NO;
     [self setupCarouselFigureDataSourceWithFigureView:figureView];
     [figureView show];
     

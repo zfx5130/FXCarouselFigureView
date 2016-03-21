@@ -56,6 +56,12 @@
 @interface FXCarouselFigureView : UIView
 
 /**
+ *  can auto carousel, default is YES
+ */
+@property (assign, nonatomic) BOOL canAutoCarousel;
+
+
+/**
  *  set the image show ways, default is UIViewContentModeScaleToFill.
  */
 @property(assign, nonatomic) UIViewContentMode contentMode;
