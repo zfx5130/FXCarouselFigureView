@@ -210,8 +210,8 @@ UIScrollViewDelegate>
 - (void)setupCollectionView {
     CGRect frame = self.bounds;
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.itemSize = CGSizeMake(CGRectGetWidth(frame),
-                                     CGRectGetHeight(frame));
+    flowLayout.itemSize = CGSizeMake(floor(CGRectGetWidth(frame)),
+                                     floor(CGRectGetHeight(frame)));
     flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     self.collectionView = [[UICollectionView alloc] initWithFrame:frame
                                              collectionViewLayout:flowLayout];
