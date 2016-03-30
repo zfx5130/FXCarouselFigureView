@@ -51,6 +51,15 @@
 - (void)imageWasSelectForFXCarouseFigureView:(FXCarouselFigureView *)view
                                        index:(NSInteger)index;
 
+/**
+ *  scroll view did scroll
+ *
+ *  @param view      self
+ *  @param scrollView scrollView
+ */
+- (void)scrollViewDidScrollForFXCarouseFigureView:(FXCarouselFigureView *)view
+                                       scrollView:(UIScrollView *)scrollView;
+
 @end
 
 @interface FXCarouselFigureView : UIView

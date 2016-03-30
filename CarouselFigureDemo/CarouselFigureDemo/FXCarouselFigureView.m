@@ -410,6 +410,10 @@ UIScrollViewDelegate>
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     int page = (int) (scrollView.contentOffset.x / scrollView.frame.size.width + 0.5) % [self.images count];
     self.pageControl.currentPage = page;
+    if ([self.delegate respondsToSelector:@selector(scrollViewDidScrollForFXCarouseFigureView:scrollView:)]) {
+        [self.delegate scrollViewDidScrollForFXCarouseFigureView:self
+                                                      scrollView:scrollView];
+    }
 }
 
 
